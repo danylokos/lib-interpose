@@ -4,7 +4,7 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	CC=g++
 	CFLAGS=-w
-	LIB_CFLGAS=-fPIC -shared -fpermissive
+	LIB_CFLGAS=-fPIC -shared
 	LIB_EXT=so
 	LIBINTER_SRC=libInter_linux.cpp
 	DL_LIBS_FLAG=-ldl
