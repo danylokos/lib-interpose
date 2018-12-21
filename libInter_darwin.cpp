@@ -19,11 +19,11 @@ typedef struct AStruct {
 	int (*sub)(AStruct *pAStruct, int a, int b);
 } AStruct;
 
-static int (*original_sub)(AStruct *pAStruct, int a, int b);
+static int (*orig_sub)(AStruct *pAStruct, int a, int b);
 
 int _sub(AStruct *pAStruct, int a, int b) {
 	printf("interposed %s: ", __func__);
-    return original_sub(pAStruct, a, b);
+    return orig_sub(pAStruct, a, b);
 }
 
 extern "C" AStruct * AStruct_new();
@@ -31,10 +31,11 @@ extern "C" AStruct * AStruct_new();
 AStruct * _AStruct_new() {
 	printf("interposed %s\n", __func__);
 	AStruct *pAStruct = AStruct_new();
-    original_sub = pAStruct->sub;
+    orig_sub = pAStruct->sub;
 	pAStruct->sub = _sub;
 	return pAStruct;
 } DYLD_INTERPOSE(_AStruct_new, AStruct_new)
+
 
 // C++
 
